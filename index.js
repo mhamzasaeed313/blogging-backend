@@ -21,11 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));   // for serving uploaded images
 app.use(cookieParser());
 
-const corsOptions = {
-    origin: ['https://your-frontend-url.vercel.app', 'http://localhost:5173'],
-    credentials: true
-};
-app.use(cors(corsOptions));
+
+app.use(cors({
+  origin: 'https://blogging-frontend-one.vercel.app', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // Allow cookies if needed
+}));
 
 // Routes
 app.use('/auth', AuthRoutes);
