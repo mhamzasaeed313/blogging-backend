@@ -5,7 +5,7 @@ const AddComment = async (req, res) => {
     try {
         const { postId, userId, comment } = req.body;
 
-        // Create a new comment
+        // 1️⃣ Create new comment
         const newComment = new CommentModel({
             postId,
             userId,
@@ -14,7 +14,7 @@ const AddComment = async (req, res) => {
 
         await newComment.save();
 
-        // Find the blog post and add the comment to it
+        // 2️⃣ Add comment ID into blog
         const blogPost = await Blgomodel.findById(postId);
         if (!blogPost) {
             return res.status(404).json({
@@ -26,10 +26,17 @@ const AddComment = async (req, res) => {
         blogPost.comments.push(newComment._id);
         await blogPost.save();
 
+        // 3️⃣ 🔥 IMPORTANT: Populate userId
+        const populatedComment = await newComment.populate({
+            path: "userId",
+            select: "FullName profile" // optional fields
+        });
+
+        // 4️⃣ Send populated comment
         res.status(201).json({
             success: true,
             message: 'Comment added successfully',
-            comment: newComment
+            comment: populatedComment
         });
 
     } catch (error) {

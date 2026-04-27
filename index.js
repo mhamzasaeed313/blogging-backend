@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-  origin: 'https://blogging-frontend-one.vercel.app', // Your frontend URL
+  origin: ['http://localhost:5173', 'https://blogging-frontend-one.vercel.app'],// Your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true // Allow cookies if needed
 }));

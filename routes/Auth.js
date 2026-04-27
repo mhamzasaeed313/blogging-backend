@@ -9,5 +9,9 @@ AuthRoutes.post('/register', upload.single('profile'), Register);
 AuthRoutes.post('/login', Login);
 AuthRoutes.post('/logout', Logout);
 AuthRoutes.patch('/profile/:id', isLogin, upload.single('profile'), updateProfile);   // removed extra upload if not needed
-
+AuthRoutes.get('/me', isLogin, (req, res) => {
+  res.status(200).json({
+    user: req.user
+  });
+});
 module.exports = AuthRoutes;
